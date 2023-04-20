@@ -1,0 +1,41 @@
+###################################
+# General Configuration
+
+# pxe_server_name: The FQDN of the PXE Server
+pxe_server_name: pxe.lab.home.arpa
+
+# pxe_server_ip: The PXE Server IP
+pxe_server_ip: 172.16.1.20
+
+###################################
+# ISC DHCPD Configuration
+
+# dhcp_subnet: The subnet, sands the netmask
+dhcp_subnet: 172.16.1.0
+
+# gateway_router_ip: The Router IP, your UDMP IP
+gateway_router_ip: 172.16.1.1
+
+# dhcp_netmask: Full length subnet mask
+dhcp_netmask: 255.255.255.0
+
+# dhcp_range_start: What IP to start the DHCP pool at
+dhcp_range_start: 172.16.1.100
+
+# dhcp_range_end: What IP to end the DHCP pool at
+dhcp_range_end: 172.16.1.250
+
+# domain_name: DHCP Domain
+domain_name: lab.home.arpa
+
+# domain_name_servers: A comma separated list of DNS servers that DHCP clients should be provided
+domain_name_servers: "172.16.1.1"
+
+# ntp_server_ip: NTP Server provided to DHCP clients, I have this running on my NAS, you can set it to your UDMP
+ntp_server_ip: 172.16.1.1
+
+###################################
+# Banner Messages for Services
+
+vsftpd_banner_message: Welcome to homelab FTP service.
+pxe_menu_x86_bios_title: homelab PXE Boot x86_64 BIOS

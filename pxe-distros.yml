@@ -1,0 +1,172 @@
+# Root-level distros var
+distros:
+
+  # Ubuntu Server 20.04 - x86_64
+  - name: ubuntu2004serverx8664 # Each name has to be unique
+    # displayName: Base display name presented in the menus
+    displayName: Ubuntu 20.04 LTS Server
+    # group: Grouping of distros, used for parent/child grouping structure
+    group: ubuntu20.04
+    # arch: architecture of the distro, options are `x86_64` and `aarch64`
+    arch: x86_64
+    # family: family of the distro, used for logic switching between boot requirements, options are `ubuntu` and `rhel`
+    family: ubuntu
+    
+    # bios_kernel: where on the mounted ISO file is the BIOS kernel located
+    bios_kernel: casper/vmlinuz
+    # bios_initrd: where on the mounted ISO file is the BIOS initrd located
+    bios_initrd: casper/initrd
+    # efi_kernel: where on the mounted ISO file is the EFI kernel located
+    efi_kernel: casper/vmlinuz
+    # efi_initrd: where on the mounted ISO file is the EFI initrd located
+    efi_initrd: casper/initrd
+
+    # Either isoURL or isoSrcPath need to be provided
+    # isoURL: URL to the ISO file
+    #isoURL: https://releases.ubuntu.com/20.04.5/ubuntu-20.04.5-live-server-amd64.iso
+
+    # isoSrcPath: Local filesystem path where the ISO is already provided
+    #isoSrcPath: /mnt/nfs-isos/ubuntu-20.04.3-live-server-amd64.iso
+
+    # protocol: Protocol to use to boot the second stage installation, and to present as an installation source
+    protocol: http
+
+    # boot_methods to support with this distro, BIOS and EFI are supported on x86_64, only EFI is supported on ARM64
+    boot_methods:
+      - BIOS
+      - EFI
+
+    # efi_options: EFI boot menu generation options to support with this distro, `gui-install`, `text-install`, and `rescue-install` are options.
+    efi_options:
+      - gui-install
+
+    # Special EFI Variables - Per arch, you need an EFI Grub2 Bootloader from one distro    
+    # efi_loader_seed: Boolean that toggles if this distro's Grub2 Bootloader should be used as the menu
+    efi_loader_seed: false
+    # efi_loader_path: Path on the ISO that has the BOOTX64.EFI,grub.cfg,grubx86.efi or BOOTAA64.EFI,grubaa64.efi,grub.cfg file sets
+    efi_loader_path: EFI/BOOT/ # trailing slash is important!
+
+  #======================================================================================
+  # Extra Examples across archs, boot methods, and distros
+
+  # Ubuntu Server 22.04 - ARM64
+  - name: ubuntu2204serverarm64
+    displayName: Ubuntu 22.04 LTS Server
+    group: ubuntu22.04
+    efi_kernel: casper/vmlinuz
+    efi_initrd: casper/initrd
+    arch: aarch64
+    family: ubuntu
+    isoURL: https://cdimage.ubuntu.com/releases/22.04/release/ubuntu-22.04.2-live-server-arm64.iso
+    protocol: http
+    boot_methods:
+      - EFI
+    efi_options:
+      - gui-install
+
+  # Rocky 9.1 - x86_64
+  - name: rocky91x8664
+    displayName: Rocky Linux 9.1
+    group: rocky91
+    efi_kernel: images/pxeboot/vmlinuz
+    efi_initrd: images/pxeboot/initrd.img
+
+    # Special EFI Variables - Per arch, you need an EFI Grub2 Bootloader from one distro
+    # efi_loader_seed: Boolean that toggles if this distro's Grub2 Bootloader should be used as the menu
+    efi_loader_seed: true
+    # efi_loader_path: Path on the ISO that has the BOOTX64.EFI,grub.cfg,grubx86.efi or BOOTAA64.EFI,grubaa64.efi,grub.cfg file sets
+    efi_loader_path: EFI/BOOT/ # trailing slash is important!
+
+    arch: x86_64
+    family: rhel
+    isoURL: https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-dvd.iso
+    protocol: ftp
+    boot_methods:
+      - EFI
+    efi_options:
+      - gui-install
+      - text-install
+      - rescue-install
+
+  # Rocky 9.1 - ARM64
+  - name: rocky91arm64
+    displayName: Rocky Linux 9.1
+    group: rocky91
+    efi_kernel: images/pxeboot/vmlinuz
+    efi_initrd: images/pxeboot/initrd.img
+
+    # Special EFI Variables - Per arch, you need an EFI Grub2 Bootloader from one distro
+    # efi_loader_seed: Boolean that toggles if this distro's Grub2 Bootloader should be used as the menu
+    efi_loader_seed: true
+    # efi_loader_path: Path on the ISO that has the BOOTX64.EFI,grub.cfg,grubx86.efi or BOOTAA64.EFI,grubaa64.efi,grub.cfg file sets
+    efi_loader_path: EFI/BOOT/ # trailing slash is important!
+
+    arch: aarch64
+    family: rhel
+    isoURL: https://download.rockylinux.org/pub/rocky/9/isos/aarch64/Rocky-9.1-aarch64-dvd.iso
+    protocol: http
+    boot_methods:
+      - EFI
+    efi_options:
+      - gui-install
+      - text-install
+      - rescue-install
+
+  # RHEL 8.6 - x86_64
+  - name: rhel86x8664
+    displayName: Red Hat Enterprise Linux 8.6
+    group: rhel86
+    bios_kernel: images/pxeboot/vmlinuz
+    bios_initrd: images/pxeboot/initrd.img
+    efi_kernel: images/pxeboot/vmlinuz
+    efi_initrd: images/pxeboot/initrd.img
+    arch: x86_64
+    family: rhel
+    # This ISO is already available via NFS due to how you have to auth to download RHEL
+    isoSrcPath: /mnt/nfs-isos/rhel8.6-x86_64.iso
+    protocol: ftp
+    boot_methods:
+      - BIOS
+      - EFI
+    efi_options:
+      - gui-install
+      - text-install
+      - rescue-install
+
+  # RHEL 8.6 - ARM64
+  - name: rhel86arm64
+    displayName: Red Hat Enterprise Linux 8.6
+    group: rhel86
+    efi_kernel: images/pxeboot/vmlinuz
+    efi_initrd: images/pxeboot/initrd.img
+    arch: aarch64
+    family: rhel
+    # This ISO is already available via NFS due to how you have to auth to download RHEL
+    isoSrcPath: /mnt/nfs-isos/rhel8.6-aarch64.iso
+    protocol: http
+    boot_methods:
+      - EFI
+    efi_options:
+      - gui-install
+      - text-install
+      - rescue-install
+
+  - name: rhel91x8664
+    displayName: Red Hat Enterprise Linux 9.1
+    group: rhel91
+    efi_kernel: images/pxeboot/vmlinuz
+    efi_initrd: images/pxeboot/initrd.img
+    arch: x86_64
+    efi_loader_seed: true
+    efi_loader_path: EFI/BOOT/ # trailing slash is important!
+    family: rhel
+    # Either isoURL or isoSrcPath need to be provided
+    isoSrcPath: /mnt/nfs-isos/rhel9.1-x86_64.iso
+    protocol: http
+    boot_methods:
+      - EFI
+    efi_options:
+      - gui-install
+      - text-install
+      - linux-rescue
+

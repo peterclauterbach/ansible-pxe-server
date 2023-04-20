@@ -1,0 +1,8 @@
+#!/bin/bash
+ansible-playbook \
+ -i inventory \
+ -e @pxe-svc-cfg.yml \
+ -e @pxe-distros.yml \
+ -kK \
+ deploy.yml
+

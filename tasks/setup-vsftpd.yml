@@ -10,12 +10,13 @@
   register: vsftpd_conf_templating
 
 - name: Allow FTP through the firewall
-  ansible.builtin.firewalld:
+  ansible.posix.firewalld:
     service: ftp
     permanent: yes
     state: enabled
 
 - name: Enable the needed SELinux Boolean(s)
+  when: ansible_selinux is defined and ansible_selinux != False and ansible_selinux.status == 'enabled'
   ansible.posix.seboolean:
     name: "{{ seb_item }}"
     state: yes
